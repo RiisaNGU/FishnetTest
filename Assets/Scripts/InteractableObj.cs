@@ -6,15 +6,8 @@ using UnityEngine.InputSystem;
 
 public class InteractableObj : NetworkBehaviour
 {
-    enum Type
-    {
-        Cube,
-        Sphere,
-        Cylinder
-    }
-
     [SyncVar]
-    private Type objType;
+    private string type;
 
     [SyncVar]
     private GameObject obj;
@@ -25,11 +18,13 @@ public class InteractableObj : NetworkBehaviour
 
     [SyncVar]
     [SerializeField]
-    bool selected = false;
+    private bool selected = false;
+
+    public bool Selected { get { return selected; } set { selected = value; } }
 
     private MeshRenderer mesh;
 
-    private Color defaultCol;
+    private Color defaultCol;       // save OG red in this
 
     [SyncVar(OnChange = nameof(OnColorChange))]
     Color color;
@@ -48,9 +43,6 @@ public class InteractableObj : NetworkBehaviour
     /// <summary>
     /// If the object gets selcted by any client connection
     /// </summary>
-    /// <param name="oldState"></param>
-    /// <param name="newState"></param>
-    /// <param name="asServer"></param>
     private void OnClicked(bool oldState, bool newState, bool asServer)
     {
         selected = newState;

@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Unlock Camera",
+                    "type": "Button",
+                    "id": "f0241150-e408-4e0e-a1bc-e6edfd2c85ee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -185,6 +194,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f39a9c77-3c42-4976-9f8a-a8f979bbc132",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Unlock Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

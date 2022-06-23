@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FishNet.Object;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField]
     private float speed;
@@ -30,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!base.IsOwner) return;
+
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
@@ -39,6 +40,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("No Jump");
     }
 
+    /// <summary>
+    /// Determines whether the player is touching the ground
+    /// </summary>
+    /// <returns></returns>
     private bool IsGrounded()
     {
         float rayBuffer = 0.5f;
@@ -61,27 +66,28 @@ public class PlayerController : MonoBehaviour
         return isHit;
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    /// <summary>
+    /// Debug purposes, hold down 'Z' to unlcok the cursor
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnUnlockCamera(InputAction.CallbackContext context)
     {
-        // when player selects object, trigger a bool attached to said object
-        float clicked = playerInput.actions["Select"].ReadValue<float>();
+        if (!base.IsOwner) return;
 
-        if(clicked == 1)
+        float clicked = playerInput.actions["Unlock Camera"].ReadValue<float>();
+
+        if (clicked == 1)
         {
-            Debug.Log("Clicked");
+            Cursor.lockState = CursorLockMode.None;
         }
         else
-            Debug.Log("Unclicked");
-
-        // if you are looking at an object
-        // get the object's information
-        // else do nothing
-
-
+            Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
+        if (!base.IsOwner) return;
+
         move = playerInput.actions["Move"].ReadValue<Vector2>();
 
         rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);

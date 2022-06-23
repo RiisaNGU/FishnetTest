@@ -62,6 +62,15 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Unlock Camera"",
+                    ""type"": ""Button"",
+                    ""id"": ""f0241150-e408-4e0e-a1bc-e6edfd2c85ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,17 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f39a9c77-3c42-4976-9f8a-a8f979bbc132"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Unlock Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -241,6 +261,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_UnlockCamera = m_Player.FindAction("Unlock Camera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,6 +325,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_UnlockCamera;
     public struct PlayerActions
     {
         private @PlayerAction m_Wrapper;
@@ -312,6 +334,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @UnlockCamera => m_Wrapper.m_Player_UnlockCamera;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -333,6 +356,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @UnlockCamera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnlockCamera;
+                @UnlockCamera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnlockCamera;
+                @UnlockCamera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnlockCamera;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -349,6 +375,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @UnlockCamera.started += instance.OnUnlockCamera;
+                @UnlockCamera.performed += instance.OnUnlockCamera;
+                @UnlockCamera.canceled += instance.OnUnlockCamera;
             }
         }
     }
@@ -368,5 +397,6 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnUnlockCamera(InputAction.CallbackContext context);
     }
 }

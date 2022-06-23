@@ -1,9 +1,11 @@
 using System;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
+// used for UI
 
 public class Player : NetworkBehaviour
 {
@@ -32,6 +34,18 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private TMP_Text timeElapsed;               // time elapsed since client connected to server- local
 
+
+    // selected object info             // how to access these???? who knows
+    [SerializeField]
+    private TMP_Text objType;
+
+    [SerializeField]
+    private TMP_Text objCoord;
+
+    [SerializeField]
+    private TMP_Text objSelectedCount;
+
+
     //////////////////////////////////////
 
     /// <summary>
@@ -39,12 +53,11 @@ public class Player : NetworkBehaviour
     /// </summary>
     public override void OnStartClient()
     {
-        base.OnStartClient();   // ALWAYS call the base function- prevents bugs later on
+        base.OnStartClient();        // ALWAYS call the base function- prevents bugs later on
 
         if (!base.IsOwner) return;   // if the object is owned by the client then the rest of the code will run, if not, the function will exit
 
-        setUser();              // set username based on the client connect number
-        setPlayerDis();         // sets the UI text for player name
+        setUser();                   // set username based on the client connect number
 
         //playerDisplay.gameObject.SetActive(false);
 
@@ -53,19 +66,10 @@ public class Player : NetworkBehaviour
     /// <summary>
     /// Create's player name based on client connection number
     /// </summary>
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = true)]
     private void setUser()
     {
         playerName = $"Player {OwnerId}";
-    }
-
-    /// <summary>
-    /// Sets the UI display text to the player's name
-    /// </summary>
-    [ServerRpc]
-    private void setPlayerDis()
-    {
-        playerDisplay.text = playerName;
     }
 
     /// <summary>
@@ -87,6 +91,21 @@ public class Player : NetworkBehaviour
         currentPos = GameObject.FindGameObjectWithTag("Player").transform.position;     // Tracks the current position of the player
         playerPos.text = currentPos.ToString();
 
+        playerDisplay.text = playerName; // sets the UI text for player name
+
         timeElapsed.text = timeFormat(Time.timeSinceLevelLoad);
+
+        // object info UI
+
+        // if object is selected
+        // set these all as active
+
+            //objType.text =
+
+            //objCoord.text =
+
+            //objSelectedCount = 
+
+        // else do nothing
     }
 }

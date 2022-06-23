@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FishNet.Object;
 
-public class CameraController : MonoBehaviour
+public class CameraController : NetworkBehaviour
 {
     private Camera mainCam;
     Vector2 camPos;
@@ -13,7 +12,7 @@ public class CameraController : MonoBehaviour
     private float yRot = 0f;            // rotating camera left and right
 
     [SerializeField]
-    private float sensitivity = 100f;
+    private float sensitivity = 50f;
     float grabDist = 6f;
     RaycastHit hit;
 
@@ -21,6 +20,9 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     private Transform playerBd;
+
+    private Component script;
+
 
     void Awake()
     {
@@ -37,6 +39,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (!base.IsOwner) return;
+
         float mouseX = playerInput.actions["Look"].ReadValue<Vector2>().x * sensitivity * Time.deltaTime;
         float mouseY = playerInput.actions["Look"].ReadValue<Vector2>().y * sensitivity * Time.deltaTime;
 
@@ -45,29 +49,44 @@ public class CameraController : MonoBehaviour
 
         yRot += mouseX;
 
-
         mainCam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0f);
         playerBd.rotation = Quaternion.Euler(0f, yRot, 0f);
 
-        //Debug.Log(Vector3.up * mouseX);
+
+        // when player selects object, trigger a bool attached to said object
+        float clicked = playerInput.actions["Select"].ReadValue<float>();
 
         // raycast from the camera to select objects
-        if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, grabDist))
+        if (clicked == 1 && Physics.Raycast(camTransform.position, camTransform.forward, out hit, grabDist))
         {
-            //Transform objectHit = hit.transform;
+
+            if (hit.collider.gameObject.GetComponent<InteractableObj>() != null)
+            {
+                Debug.Log("Clicked");
+            }
+
             Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.yellow);
+
 
             // if colliding with interactable
             // and if clicked
             // "select" the object and set it's bool to "true" aka "selected"
             // be able to see the object's:
-                // name
-                // coords
-                // amount of times it's been selected
+            // name
+            // coords
+            // amount of times it's been selected
+
+            
         }
         else
         {
             Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.red);
         }
+
+
+        // if you are looking at an object
+        // get the object's information
+        // else do nothing
     }
+
 }
