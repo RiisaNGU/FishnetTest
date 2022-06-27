@@ -536,6 +536,7 @@ MonoBehaviour:
   _sceneNetworkObjects:
   - {fileID: 3818165348246083455}
   - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &6973729736559796461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,8 +566,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3838128234170608249}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: OnMove
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -612,12 +613,12 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2516170282867335908}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1079,7 +1080,6 @@ GameObject:
   - component: {fileID: 1321856471785485991}
   - component: {fileID: 1682399909406579456}
   - component: {fileID: 1816275261313765173}
-  - component: {fileID: 8883140361642432875}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1152,20 +1152,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8883140361642432875
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4633763038408940650}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5987550553716199411
 GameObject:
   m_ObjectHideFlags: 0

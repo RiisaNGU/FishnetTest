@@ -45,8 +45,15 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private TMP_Text objSelectedCount;
 
+    private Canvas canvas;
 
     //////////////////////////////////////
+
+    private void Awake()
+    {
+        canvas = GetComponentInChildren<Canvas>();
+        canvas.enabled = false;
+    }
 
     /// <summary>
     ///     Instantiates a player object every time a client starts up and connects to the server
@@ -58,9 +65,12 @@ public class Player : NetworkBehaviour
         if (!base.IsOwner) return;   // if the object is owned by the client then the rest of the code will run, if not, the function will exit
 
         setUser();                   // set username based on the client connect number
+        SetUIActive();               // activates the client's UI, prevents overlap
+    }
 
-        //playerDisplay.gameObject.SetActive(false);
-
+    private void SetUIActive()
+    {
+        canvas.enabled = true;
     }
 
     /// <summary>
@@ -95,6 +105,7 @@ public class Player : NetworkBehaviour
 
         timeElapsed.text = timeFormat(Time.timeSinceLevelLoad);
 
+
         // object info UI
 
         // if object is selected
@@ -108,4 +119,5 @@ public class Player : NetworkBehaviour
 
         // else do nothing
     }
+
 }

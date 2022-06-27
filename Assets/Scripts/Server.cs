@@ -10,6 +10,7 @@ public class Server : NetworkBehaviour
     [SerializeField]
     private NetworkObject spherePrefab;
 
+    [ServerRpc]
     public override void OnStartServer()
     {
         base.OnStartServer();

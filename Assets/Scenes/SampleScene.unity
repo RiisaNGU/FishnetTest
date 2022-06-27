@@ -943,9 +943,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537ddd4b76852c4e84e97f27efcceee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 1932677898}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 1932677898}
+  obj: {fileID: 433108306}
   objPos: {x: 0, y: 0, z: 0}
   selected: 0
 --- !u!1 &581235394
@@ -1124,7 +1125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 693145149}
-  _networkObjectCache: {fileID: 1932677898}
+  _networkObjectCache: {fileID: 693145149}
   spherePrefab: {fileID: -2687466503000293559, guid: 05d6e0fbbc841984eb06c699b6aba4df, type: 3}
 --- !u!114 &693145148
 MonoBehaviour:
@@ -1140,7 +1141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 693145149}
-  _networkObjectCache: {fileID: 1932677898}
+  _networkObjectCache: {fileID: 693145149}
   _synchronizeParent: 0
   _packing:
     Position: 1
@@ -1188,7 +1189,7 @@ MonoBehaviour:
     Rotation: {x: -0, y: -0, z: -0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
-  _hasParentNetworkObjectAtEdit: 1
+  _hasParentNetworkObjectAtEdit: 0
   NetworkObserver: {fileID: 0}
   _prefabId: -1
   _scenePathHash: 584410112
@@ -2510,6 +2511,7 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 693145147}
   - {fileID: 693145148}
+  - {fileID: 433108311}
   SceneTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: -0, y: -0, z: -0, w: 1}

@@ -6,52 +6,42 @@ using UnityEngine.InputSystem;
 
 public class InteractableObj : NetworkBehaviour
 {
+    [SerializeField]
     [SyncVar]
-    private string type;
+    private GameObject obj;             // the object that the script is attached to
 
     [SyncVar]
-    private GameObject obj;
+    private string type;                // name/type of the object
 
     [SyncVar]
     [SerializeField]
-    private Vector3 objPos;
+    private Vector3 objPos;             // current position of the object
+
+    [SyncVar]
+    private int count = 0;              // number of times the object has been selected/clicked
 
     [SyncVar]
     [SerializeField]
-    private bool selected = false;
+    private bool selected = false;      // object is/isnt currently selected
 
-    public bool Selected { get { return selected; } set { selected = value; } }
+    public bool Selected { get { return selected; } set { selected = value; } }     // protecting the selected variable with a get/set
 
-    private MeshRenderer mesh;
+    private MeshRenderer mesh;          // to activate the mesh??
 
-    private Color defaultCol;       // save OG red in this
+    private Color defaultCol;           // save OG red in this
 
-    [SyncVar(OnChange = nameof(OnColorChange))]
+    [SyncVar(OnChange = nameof(OnColorChange))]     // saving the CURRENT colour
     Color color;
 
     private void Awake()
     {
         defaultCol = GetComponent<MeshRenderer>().material.color;
-        obj = GetComponent<GameObject>();
     }
 
     private void OnColorChange(Color oldC, Color newC, bool asServer)
     {
         mesh.material.color = newC;
     }
-
-    /// <summary>
-    /// If the object gets selcted by any client connection
-    /// </summary>
-    private void OnClicked(bool oldState, bool newState, bool asServer)
-    {
-        selected = newState;
-
-        // if newstate is true
-        // ---turn all these on---
-        // else turn it off
-    }
-
 
     private void setColor(Color col)
     {
@@ -65,7 +55,7 @@ public class InteractableObj : NetworkBehaviour
 
     private void Update()
     {
-        
+        trackPos();
     }
 
 }

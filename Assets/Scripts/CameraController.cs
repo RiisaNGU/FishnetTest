@@ -17,16 +17,19 @@ public class CameraController : NetworkBehaviour
     RaycastHit hit;
 
     private PlayerInput playerInput;
+    InteractableObj inObj;              // access to publics in the InteractableObj file
 
     [SerializeField]
     private Transform playerBd;
 
-    private Component script;
+    private bool clicked;
+    private float lastClicked = 0f;     // time since the last click was registered
 
 
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;       // prevents cursor from moving out of the game
+        
         mainCam = GetComponentInChildren<Camera>();
         playerInput = GetComponent<PlayerInput>();
         playerBd = GetComponent<Transform>();
@@ -37,7 +40,7 @@ public class CameraController : NetworkBehaviour
         camTransform = mainCam.transform;
     }
 
-    void Update()
+    public void OnLook(InputAction.CallbackContext context)
     {
         if (!base.IsOwner) return;
 
@@ -51,42 +54,49 @@ public class CameraController : NetworkBehaviour
 
         mainCam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0f);
         playerBd.rotation = Quaternion.Euler(0f, yRot, 0f);
+    }
 
+    void Update()
+    {
+        if (!base.IsOwner) return;
 
         // when player selects object, trigger a bool attached to said object
-        float clicked = playerInput.actions["Select"].ReadValue<float>();
+        clicked = playerInput.actions["Select"].IsPressed();
+        
 
-        // raycast from the camera to select objects
-        if (clicked == 1 && Physics.Raycast(camTransform.position, camTransform.forward, out hit, grabDist))
+        if(clicked && (Time.time - lastClicked) > 0.2)      // prevent multiple clicks
         {
+            lastClicked = Time.time;
+            checkRaycast();
+        }
+    }
 
-            if (hit.collider.gameObject.GetComponent<InteractableObj>() != null)
+    private void checkRaycast()
+    {
+        // raycast from the camera to select objects
+        if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, grabDist))
+        {
+            if (hit.collider.gameObject.GetComponent<InteractableObj>() != null)        // if the object hit is an interactive object (contains InteractableObj.cs)
             {
+                Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.yellow);
                 Debug.Log("Clicked");
+
+                inObj = hit.collider.gameObject.GetComponent<InteractableObj>();        // set inObj to the object that is currently colliding w/ the raycast
+
+                if (inObj.Selected)
+                {
+                    inObj.Selected = false;
+                }
+                else
+                {
+                    inObj.Selected = true;
+                }
             }
-
-            Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.yellow);
-
-
-            // if colliding with interactable
-            // and if clicked
-            // "select" the object and set it's bool to "true" aka "selected"
-            // be able to see the object's:
-            // name
-            // coords
-            // amount of times it's been selected
-
-            
         }
         else
         {
             Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.red);
         }
-
-
-        // if you are looking at an object
-        // get the object's information
-        // else do nothing
     }
 
 }

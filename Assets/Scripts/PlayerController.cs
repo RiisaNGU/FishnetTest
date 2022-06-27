@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using FishNet.Object;
 
+[DisallowMultipleComponent]
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField]
@@ -84,13 +85,19 @@ public class PlayerController : NetworkBehaviour
             Cursor.lockState = CursorLockMode.Locked;
     }
 
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (!base.IsOwner) return;
+
+        move = context.ReadValue<Vector2>();
+    }
+
     private void Update()
     {
         if (!base.IsOwner) return;
 
-        move = playerInput.actions["Move"].ReadValue<Vector2>();
-
         rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);
+
         //Debug.Log(move);
     }
 }
