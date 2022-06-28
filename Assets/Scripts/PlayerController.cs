@@ -11,21 +11,25 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private float jumpHeight;
 
-    private PlayerInput playerInput;
-
-    private Rigidbody rb;
-    private CapsuleCollider cc;
-
     [SerializeField]
     private LayerMask groundLayer;
 
+    private PlayerInput playerInput;
+    private Rigidbody rb;
+    private CapsuleCollider cc;
     private Vector2 move;
+    private Vector3 mainCam;
+
+    private Quaternion rot;
+
+    private Camera cam;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
         playerInput = GetComponent<PlayerInput>();
+        cam = GetComponentInChildren<Camera>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -68,7 +72,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Debug purposes, hold down 'Z' to unlcok the cursor
+    /// Debug purposes, hold down 'Z' to unlock the cursor
     /// </summary>
     /// <param name="context"></param>
     public void OnUnlockCamera(InputAction.CallbackContext context)
@@ -96,8 +100,29 @@ public class PlayerController : NetworkBehaviour
     {
         if (!base.IsOwner) return;
 
+        //Vector3 lookCam = cam.transform.localEulerAngles;
+        //lookCam.y = 0f;
+
+        //mainCam = cam.transform.TransformDirection(lookCam);
+        //mainCam.y = 0f;
+        //mainCam.Normalize();
+
+        ////transform.Translate(move.x * speed, 0f, move.y * speed);
+
+        //Vector3 newMove = Vector3.MoveTowards(this.transform.forward, mainCam, speed * Time.deltaTime);
+
+        //rot = cam.transform.rotation;
+        //rot.x = 0f;
+        //rot.z = 0f;
+        //transform.rotation = rot;
+
         rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);
 
-        //Debug.Log(move);
+        //rb.MovePosition(rb.position + mainCam * speed * Time.deltaTime);
+        
+        //Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg + mainCam.y;
+
+
+        Debug.Log(mainCam);
     }
 }

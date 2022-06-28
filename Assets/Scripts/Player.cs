@@ -34,8 +34,7 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private TMP_Text timeElapsed;               // time elapsed since client connected to server- local
 
-
-    // selected object info             // how to access these???? who knows
+    // selected object info
     [SerializeField]
     private TMP_Text objType;
 

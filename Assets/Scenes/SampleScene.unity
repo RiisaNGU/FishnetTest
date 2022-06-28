@@ -346,7 +346,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1932677897}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &201704507
 GameObject:
@@ -1075,7 +1075,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1932677897}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &693145145
 GameObject:
@@ -1126,7 +1126,8 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 693145149}
   _networkObjectCache: {fileID: 693145149}
-  spherePrefab: {fileID: -2687466503000293559, guid: 05d6e0fbbc841984eb06c699b6aba4df, type: 3}
+  NetworkObjects:
+  - {fileID: -2687466503000293559, guid: 05d6e0fbbc841984eb06c699b6aba4df, type: 3}
 --- !u!114 &693145148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2489,7 +2490,6 @@ Transform:
   - {fileID: 1605215354}
   - {fileID: 1407181337}
   - {fileID: 1710037750}
-  - {fileID: 2131832725}
   - {fileID: 666613405}
   - {fileID: 2142214825}
   - {fileID: 145900916}
@@ -2508,10 +2508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _networkBehaviours:
-  - {fileID: 693145147}
-  - {fileID: 693145148}
-  - {fileID: 433108311}
+  _networkBehaviours: []
   SceneTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: -0, y: -0, z: -0, w: 1}
@@ -2548,14 +2545,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131832724}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 693145146}
   - {fileID: 1299474886}
-  m_Father: {fileID: 1932677897}
+  m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2142214824
@@ -2587,7 +2584,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1932677897}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &983894673324627986
 MonoBehaviour:
@@ -3175,7 +3172,7 @@ Transform:
   m_Children:
   - {fileID: 3553491070091396362}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7704306616551618874
 MonoBehaviour:

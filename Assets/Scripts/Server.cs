@@ -1,21 +1,28 @@
 using FishNet;
 using FishNet.Object;
 using FishNet.Managing;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FishNet.Object.Synchronizing;
 
 public class Server : NetworkBehaviour
 {
+    // list of dynamic network objects that appear in the scene
     [SerializeField]
-    private NetworkObject spherePrefab;
+    private List<NetworkObject> NetworkObjects = new List<NetworkObject>();
 
-    [ServerRpc]
-    public override void OnStartServer()
+    private NetworkObject obj;
+
+    [Server]
+    public override void OnStartServer()        // runs when server starts up
     {
         base.OnStartServer();
 
-        NetworkObject obj = Instantiate(spherePrefab);
-        InstanceFinder.ServerManager.Spawn(obj, null);
+        // instantiate every network object in the list
+        for(int i = 0; i < NetworkObjects.Count; i++)
+        {
+            obj = Instantiate(NetworkObjects[i]);
+            InstanceFinder.ServerManager.Spawn(obj, null);
+        }
     }
 }
