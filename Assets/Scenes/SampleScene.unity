@@ -363,7 +363,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693145145}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 6.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -458,7 +458,7 @@ MonoBehaviour:
   _sceneNetworkObjects:
   - {fileID: 693145149}
   - {fileID: 1299474887}
-  - {fileID: 2726421018363472913}
+  - {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,7 +796,7 @@ MonoBehaviour:
   _sceneNetworkObjects:
   - {fileID: 693145149}
   - {fileID: 1299474887}
-  - {fileID: 2726421018363472913}
+  - {fileID: 0}
 --- !u!1 &2131832724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,33 +1303,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2726421018363472913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2726421018363472915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _networkBehaviours: []
-  SceneTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: -0, y: -0, z: -0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
-  _isNetworked: 0
-  _hasParentNetworkObjectAtEdit: 0
-  NetworkObserver: {fileID: 0}
-  _prefabId: -1
-  _scenePathHash: 584410112
-  _sceneId: 2510022321382831137
-  _sceneNetworkObjects:
-  - {fileID: 693145149}
-  - {fileID: 1299474887}
-  - {fileID: 2726421018363472913}
 --- !u!4 &2726421018363472914
 Transform:
   m_ObjectHideFlags: 0
@@ -1360,7 +1333,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2726421018363472914}
-  - component: {fileID: 2726421018363472913}
   m_Layer: 7
   m_Name: PlayArea
   m_TagString: PlayArea
@@ -3183,6 +3155,7 @@ GameObject:
   - component: {fileID: 7704306616551618868}
   - component: {fileID: 983894673324627986}
   - component: {fileID: 7704306616551618874}
+  - component: {fileID: 7704306616551618875}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -3224,6 +3197,22 @@ MonoBehaviour:
   - {fileID: 2726421019228064134}
   - {fileID: 2726421018555671986}
   - {fileID: 2726421019781151343}
+--- !u!114 &7704306616551618875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704306616551618869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ce8bbb58966cb45a7140f32da5327a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startInOffline: 0
+  _offlineScene: Assets/Scenes/SampleScene.unity
+  _onlineScene: Assets/Scenes/SampleScene.unity
+  _replaceScenes: 0
 --- !u!224 &8318201829347727437
 RectTransform:
   m_ObjectHideFlags: 0

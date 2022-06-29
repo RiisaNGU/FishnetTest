@@ -1,5 +1,4 @@
 using System;
-using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
@@ -11,19 +10,12 @@ public class Player : NetworkBehaviour
 {
     /// SyncVar is used to synchronize values along the client and server
 
-    [SyncVar(OnChange = nameof(OnPlayerNameChange))]
+    [SyncVar]
     [SerializeField]
     string playerName;
 
-    private void OnPlayerNameChange(string oldName, string newName, bool asServer)  // if username changes this will update the UI text
-    {
-        if (!IsOwner) playerDisplay.text = newName;
-    }
-
     [SerializeField]
     Vector3 currentPos;                         // current position of player
-
-    private Time time;                          // time elapsed since client started
 
     [SerializeField]
     private TMP_Text playerDisplay;             // TMPro UI- player's name, serialized so we can drag and drop the actual textbox that will be linked to this field
@@ -46,14 +38,6 @@ public class Player : NetworkBehaviour
 
     private Canvas canvas;
 
-    //////////////////////////////////////
-
-    private void Awake()
-    {
-        canvas = GetComponentInChildren<Canvas>();
-        canvas.enabled = false;
-    }
-
     /// <summary>
     ///     Instantiates a player object every time a client starts up and connects to the server
     /// </summary>
@@ -63,11 +47,13 @@ public class Player : NetworkBehaviour
 
         if (!base.IsOwner) return;   // if the object is owned by the client then the rest of the code will run, if not, the function will exit
 
+        canvas = GetComponentInChildren<Canvas>();
+
         setUser();                   // set username based on the client connect number
-        SetUIActive();               // activates the client's UI, prevents overlap
+        SetUI();               // activates the client's UI, prevents overlap
     }
 
-    private void SetUIActive()
+    private void SetUI()
     {
         canvas.enabled = true;
     }
@@ -75,7 +61,6 @@ public class Player : NetworkBehaviour
     /// <summary>
     /// Create's player name based on client connection number
     /// </summary>
-    [ServerRpc(RequireOwnership = true)]
     private void setUser()
     {
         playerName = $"Player {OwnerId}";
@@ -100,10 +85,9 @@ public class Player : NetworkBehaviour
         currentPos = GameObject.FindGameObjectWithTag("Player").transform.position;     // Tracks the current position of the player
         playerPos.text = currentPos.ToString();
 
-        playerDisplay.text = playerName; // sets the UI text for player name
+        playerDisplay.text = playerName;                                                // sets the UI text for player name
 
-        timeElapsed.text = timeFormat(Time.timeSinceLevelLoad);
-
+        timeElapsed.text = timeFormat(Time.timeSinceLevelLoad);                         // time since level has loaded
 
         // object info UI
 

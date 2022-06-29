@@ -59,11 +59,6 @@ public class CameraController : NetworkBehaviour
         }
     }
 
-    void Update()
-    {
-        
-    }
-
     private void checkRaycast()
     {
         // raycast from the camera to select objects
@@ -91,5 +86,4 @@ public class CameraController : NetworkBehaviour
             Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.red);
         }
     }
-
 }

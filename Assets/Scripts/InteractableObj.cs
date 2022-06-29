@@ -1,8 +1,6 @@
-using System;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InteractableObj : NetworkBehaviour
 {
@@ -13,8 +11,8 @@ public class InteractableObj : NetworkBehaviour
     [SyncVar]
     private string type;                // name/type of the object
 
-    [SyncVar]
     [SerializeField]
+    [SyncVar]
     private Vector3 objPos;             // current position of the object
 
     [SerializeField]
@@ -29,6 +27,7 @@ public class InteractableObj : NetworkBehaviour
 
     private MeshRenderer mesh;          
 
+    [SyncVar]
     private Color defaultCol;           // save OG red in this
 
     private void Awake()
@@ -46,14 +45,11 @@ public class InteractableObj : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void OnSelected(bool oldSel, bool newSel, bool asServer)
     {
-        Debug.Log(newSel);
-
         Selected = newSel;
 
         if (newSel)
         {
             Debug.Log("Selected");
-
             count++;
             setColor(Color.green);
         }
@@ -62,7 +58,6 @@ public class InteractableObj : NetworkBehaviour
             Debug.Log("Unselected");
             setColor(defaultCol);
         }
-
     }
 
     [ServerRpc (RequireOwnership = false)]
@@ -76,5 +71,4 @@ public class InteractableObj : NetworkBehaviour
     {
         trackPos();
     }
-
 }

@@ -1,9 +1,7 @@
 using FishNet;
 using FishNet.Object;
-using FishNet.Managing;
 using System.Collections.Generic;
 using UnityEngine;
-using FishNet.Object.Synchronizing;
 
 public class Server : NetworkBehaviour
 {
