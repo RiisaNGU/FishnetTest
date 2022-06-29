@@ -14,7 +14,6 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
-    private PlayerInput playerInput;
     private Rigidbody rb;
     private CapsuleCollider cc;
     private Vector2 move;
@@ -28,7 +27,6 @@ public class PlayerController : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
-        playerInput = GetComponent<PlayerInput>();
         cam = GetComponentInChildren<Camera>();
     }
 
@@ -79,9 +77,9 @@ public class PlayerController : NetworkBehaviour
     {
         if (!base.IsOwner) return;
 
-        float clicked = playerInput.actions["Unlock Camera"].ReadValue<float>();
+        bool clicked = context.performed;
 
-        if (clicked == 1)
+        if (clicked)
         {
             Cursor.lockState = CursorLockMode.None;
         }
@@ -123,6 +121,6 @@ public class PlayerController : NetworkBehaviour
         //Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg + mainCam.y;
 
 
-        Debug.Log(mainCam);
+        //Debug.Log(mainCam);
     }
 }

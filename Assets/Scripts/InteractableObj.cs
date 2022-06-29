@@ -17,43 +17,62 @@ public class InteractableObj : NetworkBehaviour
     [SerializeField]
     private Vector3 objPos;             // current position of the object
 
+    [SerializeField]
     [SyncVar]
     private int count = 0;              // number of times the object has been selected/clicked
 
-    [SyncVar]
     [SerializeField]
+    [SyncVar (OnChange = nameof(OnSelected))]
     private bool selected = false;      // object is/isnt currently selected
 
     public bool Selected { get { return selected; } set { selected = value; } }     // protecting the selected variable with a get/set
 
-    private MeshRenderer mesh;          // to activate the mesh??
+    private MeshRenderer mesh;          
 
     private Color defaultCol;           // save OG red in this
-
-    [SyncVar(OnChange = nameof(OnColorChange))]     // saving the CURRENT colour
-    Color color;
 
     private void Awake()
     {
         defaultCol = GetComponent<MeshRenderer>().material.color;
+        mesh = GetComponent<MeshRenderer>();
     }
 
-    private void OnColorChange(Color oldC, Color newC, bool asServer)
-    {
-        mesh.material.color = newC;
-    }
-
+    [ServerRpc (RequireOwnership = false)]
     private void setColor(Color col)
     {
-        color = col;
+        mesh.material.color = col;
     }
 
-    private void trackPos()     // takes in the position of the seletced object
+    [ServerRpc(RequireOwnership = false)]
+    private void OnSelected(bool oldSel, bool newSel, bool asServer)
+    {
+        Debug.Log(newSel);
+
+        Selected = newSel;
+
+        if (newSel)
+        {
+            Debug.Log("Selected");
+
+            count++;
+            setColor(Color.green);
+        }
+        else
+        {
+            Debug.Log("Unselected");
+            setColor(defaultCol);
+        }
+
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    private void trackPos()     // takes in the position of the selected object
     {
         objPos = obj.transform.position;
     }
 
-    private void Update()
+    [ServerRpc(RequireOwnership = false)]
+    private void Update()       // local to 'owner'
     {
         trackPos();
     }
