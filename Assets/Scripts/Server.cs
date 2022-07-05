@@ -1,4 +1,3 @@
-using FishNet;
 using FishNet.Object;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +19,7 @@ public class Server : NetworkBehaviour
         for(int i = 0; i < NetworkObjects.Count; i++)
         {
             obj = Instantiate(NetworkObjects[i]);
-            InstanceFinder.ServerManager.Spawn(obj, null);
+            ServerManager.Spawn(obj, null);
         }
     }
 }

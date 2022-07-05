@@ -11,13 +11,12 @@ public class CameraController : NetworkBehaviour
     private float yRot = 0f;            // rotating camera left and right
 
     [SerializeField]
-    private float sensitivity = 20f;
+    private float sensitivity = 0.5f;
     float grabDist = 7f;
     RaycastHit hit;
 
     InteractableObj inObj;              // access to publics in the InteractableObj file
 
-    [SerializeField]
     private Transform playerBd;
 
     private float lastClicked = 0f;     // time since the last click was registered
@@ -25,7 +24,7 @@ public class CameraController : NetworkBehaviour
     private void Start()
     {
         mainCam = GetComponentInChildren<Camera>();
-        playerBd = GetComponent<Transform>();
+        playerBd = GetComponentInChildren<Transform>();
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -46,6 +45,8 @@ public class CameraController : NetworkBehaviour
 
         mainCam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0f);
         playerBd.rotation = Quaternion.Euler(0f, yRot, 0f);
+        //playerBd.Rotate(0f, mouseX, 0f);
+        
     }
 
     public void OnSelect(InputAction.CallbackContext context)

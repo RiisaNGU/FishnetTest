@@ -50,7 +50,7 @@ public class Player : NetworkBehaviour
         canvas = GetComponentInChildren<Canvas>();
 
         setUser();                   // set username based on the client connect number
-        SetUI();               // activates the client's UI, prevents overlap
+        SetUI();                     // activates the client's UI, prevents overlap
     }
 
     private void SetUI()

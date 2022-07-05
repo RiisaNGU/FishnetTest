@@ -37,10 +37,18 @@ public class PlayerController : NetworkBehaviour
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
+
+            IsJumping("Jump");
         }
         else
             Debug.Log("No Jump");
+    }
+
+    [ServerRpc (RunLocally = true)]
+    private void IsJumping(string msg)
+    {
+        Debug.Log($"{msg}");
     }
 
     /// <summary>
@@ -105,8 +113,6 @@ public class PlayerController : NetworkBehaviour
         //mainCam.y = 0f;
         //mainCam.Normalize();
 
-        ////transform.Translate(move.x * speed, 0f, move.y * speed);
-
         //Vector3 newMove = Vector3.MoveTowards(this.transform.forward, mainCam, speed * Time.deltaTime);
 
         //rot = cam.transform.rotation;
@@ -114,12 +120,9 @@ public class PlayerController : NetworkBehaviour
         //rot.z = 0f;
         //transform.rotation = rot;
 
-        rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);
+        //rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);
 
-        //rb.MovePosition(rb.position + mainCam * speed * Time.deltaTime);
-        
-        //Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg + mainCam.y;
-
+        transform.Translate(new Vector3(move.x, 0, move.y) * (speed * Time.deltaTime));
 
         //Debug.Log(mainCam);
     }

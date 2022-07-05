@@ -36,13 +36,11 @@ public class InteractableObj : NetworkBehaviour
         mesh = GetComponent<MeshRenderer>();
     }
 
-    [ServerRpc (RequireOwnership = false)]
     private void setColor(Color col)
     {
         mesh.material.color = col;
     }
 
-    [ServerRpc(RequireOwnership = false)]
     private void OnSelected(bool oldSel, bool newSel, bool asServer)
     {
         Selected = newSel;
@@ -66,7 +64,6 @@ public class InteractableObj : NetworkBehaviour
         objPos = obj.transform.position;
     }
 
-    [ServerRpc(RequireOwnership = false)]
     private void Update()       // local to 'owner'
     {
         trackPos();
