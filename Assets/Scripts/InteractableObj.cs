@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -25,7 +26,7 @@ public class InteractableObj : NetworkBehaviour
 
     public bool Selected { get { return selected; } set { selected = value; } }     // protecting the selected variable with a get/set
 
-    private MeshRenderer mesh;          
+    private MeshRenderer mesh;
 
     [SyncVar]
     private Color defaultCol;           // save OG red in this
@@ -41,24 +42,24 @@ public class InteractableObj : NetworkBehaviour
         mesh.material.color = col;
     }
 
-    private void OnSelected(bool oldSel, bool newSel, bool asServer)
+    private void OnSelected(bool oldSel, bool newSel, bool asServer) 
     {
-        Selected = newSel;
-
         if (newSel)
         {
             Debug.Log("Selected");
             count++;
             setColor(Color.green);
+            this.GiveOwnership(LocalConnection);    // gives object ownership to the client that calls the method
         }
         else
         {
             Debug.Log("Unselected");
             setColor(defaultCol);
+            this.RemoveOwnership();
         }
+        Debug.Log(this.OwnerId);
     }
 
-    [ServerRpc (RequireOwnership = false)]
     private void trackPos()     // takes in the position of the selected object
     {
         objPos = obj.transform.position;

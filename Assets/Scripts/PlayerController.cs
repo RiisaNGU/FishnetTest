@@ -12,20 +12,24 @@ public class PlayerController : NetworkBehaviour
     private float jumpHeight;
 
     [SerializeField]
+    private float groundDrag;
+
+    [SerializeField]
     private LayerMask groundLayer;
 
     private Rigidbody rb;
     private CapsuleCollider cc;
+    private Transform playerRot;
     private Vector2 move;
-    private Vector3 mainCam;
-
-    private Quaternion rot;
+    private Vector3 movement;
 
     private Camera cam;
 
     void Awake()
     {
+        playerRot = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
+
         cc = GetComponent<CapsuleCollider>();
         cam = GetComponentInChildren<Camera>();
     }
@@ -37,15 +41,14 @@ public class PlayerController : NetworkBehaviour
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-            //Debug.Log("Jump");
-
+            
             IsJumping("Jump");
         }
         else
             Debug.Log("No Jump");
     }
 
-    [ServerRpc (RunLocally = true)]
+    [ServerRpc (RunLocally = true)]                                  // RunLocally has the method run on the client performing the action as well as the server
     private void IsJumping(string msg)
     {
         Debug.Log($"{msg}");
@@ -98,11 +101,11 @@ public class PlayerController : NetworkBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         if (!base.IsOwner) return;
-
+        
         move = context.ReadValue<Vector2>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!base.IsOwner) return;
 
@@ -120,10 +123,25 @@ public class PlayerController : NetworkBehaviour
         //rot.z = 0f;
         //transform.rotation = rot;
 
-        //rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);
+        //rb.MoveRotation(cam.transform.rotation);
+        //rb.MoveRotation(cam.transform.rotation.normalized);
 
-        transform.Translate(new Vector3(move.x, 0, move.y) * (speed * Time.deltaTime));
 
-        //Debug.Log(mainCam);
+        //rb.rotation = new Quaternion(0f, cam.transform.eulerAngles.y, 0f, 0f);
+        rb.velocity = new Vector3(move.x * speed, rb.velocity.y, move.y * speed);
+
+        //if(IsGrounded())
+        //    rb.drag = groundDrag;
+        //else
+        //    rb.drag = 0f;
+
+        //movement = playerRot.forward * move.y + playerRot.right * move.x;
+        //rb.AddForce(movement.normalized * speed, ForceMode.Force);
+
+
+        //transform.Translate(new Vector3(move.x, 0, move.y) * (speed * Time.deltaTime));
+
+        //Debug.Log(cam.transform.rotation);
+
     }
 }

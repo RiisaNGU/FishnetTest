@@ -1,22 +1,22 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 
 public class CameraController : NetworkBehaviour
 {
     private Camera mainCam;
-    Transform camTransform;
+    private Transform camTransform;
 
     private float xRot = 0f;            // rotating camera up and down
     private float yRot = 0f;            // rotating camera left and right
 
     [SerializeField]
     private float sensitivity = 0.5f;
-    float grabDist = 7f;
-    RaycastHit hit;
+    private float grabDist = 7f;
+    private RaycastHit hit;
 
     InteractableObj inObj;              // access to publics in the InteractableObj file
-
     private Transform playerBd;
 
     private float lastClicked = 0f;     // time since the last click was registered
@@ -24,7 +24,7 @@ public class CameraController : NetworkBehaviour
     private void Start()
     {
         mainCam = GetComponentInChildren<Camera>();
-        playerBd = GetComponentInChildren<Transform>();
+        playerBd = GetComponent<Transform>();
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -39,21 +39,20 @@ public class CameraController : NetworkBehaviour
         float mouseY = context.ReadValue<Vector2>().y * sensitivity * Time.deltaTime;
 
         xRot -= mouseY;
-        xRot = Mathf.Clamp(xRot, -90f, 90f);
+        xRot = Mathf.Clamp(xRot, -90f, 90f);             // locks the max rotation that the player can look up and down
 
         yRot += mouseX;
 
         mainCam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0f);
+
         playerBd.rotation = Quaternion.Euler(0f, yRot, 0f);
-        //playerBd.Rotate(0f, mouseX, 0f);
-        
     }
 
     public void OnSelect(InputAction.CallbackContext context)
     {
         if (!base.IsOwner) return;
 
-        if (Time.time - lastClicked > 0.2)      // prevent multiple clicks
+        if (Time.time - lastClicked > 0.2)                // prevent multiple clicks
         {
             lastClicked = Time.time;
             checkRaycast();
@@ -72,19 +71,17 @@ public class CameraController : NetworkBehaviour
 
                 inObj = hit.collider.gameObject.GetComponent<InteractableObj>();        // set inObj to the object that is currently colliding w/ the raycast
 
-                if (inObj.Selected)
+                if (inObj.Selected && inObj.CompareOwner(base.Owner))                   // object owner check
                 {
                     inObj.Selected = false;
                 }
-                else
+                else if (!inObj.Selected && !inObj.CompareOwner(base.Owner))
                 {
                     inObj.Selected = true;
                 }
             }
         }
         else
-        {
             Debug.DrawRay(camTransform.position, camTransform.forward * grabDist, Color.red);
-        }
     }
 }

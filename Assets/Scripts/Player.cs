@@ -12,7 +12,7 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     [SerializeField]
-    string playerName;
+    private string playerName;
 
     [SerializeField]
     Vector3 currentPos;                         // current position of player
